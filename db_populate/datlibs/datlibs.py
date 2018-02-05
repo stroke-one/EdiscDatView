@@ -6,7 +6,7 @@ class DatReader:
         self.dat_delimiter = chr(20)
         self.dat_quotechar = chr(254)
         self.dat_newline   = chr(174)
-        self.dat_column_count = 0
+        self.dat_column_count = 0 # total number of DAT columns
         self._open_file(filepath)
 
     def _open_file(self, fp):
@@ -29,7 +29,7 @@ class DatReader:
         self.dat_column_count = len(tmp_headers)
         return(dict(zip([i for i in range(len(tmp_headers))], tmp_headers)))
 
-    def get_column_max(self):
+    def column_max_inspect(self):
         self.column_maxlen = {n: 0 for n in range(self.dat_column_count)}
         for row in self.csv_fp:
             for column in self.column_maxlen:
@@ -38,11 +38,20 @@ class DatReader:
         self._open_file(self.fp.name)  ## necessary to re-open after iterating to the end of the csv
         return(self.column_maxlen)
 
+    def column_max_return(self):
+        try:
+            header_and_max = {self.headers[n]: self.column_maxlen[n] for n in self.headers}
+            return(header_and_max)
+        except NameError as e:
+            print("Column max values not yet calculated")
+            print("Try running column_max_inspect()")
+        return
+
     def print_report(self):
         try:
             self.column_maxlen
         except AttributeError:
-            self.get_column_max()
+            self.column_max_inspect()
 
         for n in range(self.dat_column_count):
             print("\t".join([self.headers[n], str(self.column_maxlen[n])]))

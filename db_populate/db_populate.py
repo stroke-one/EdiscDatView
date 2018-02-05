@@ -17,6 +17,12 @@ class DBConnect:
         if self.con is not None:
             self.con.close()
 
+class DBCreateNew(DBConnect):
+
+    def db_name(self, db_name):
+        self.db_name = db_name
+
+
 class DBInitialSetup():
     def __init__(self, main_db_name):
         self.main_db_name = main_db_name

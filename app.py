@@ -8,9 +8,10 @@ tm = time.time()
 
 ## below test code is for reading in the generated dat file
 ## and getting the max size of each field
-# d = DatReader("test.DAT", has_headers=True)
-# print(d.headers)
-# d.print_report()
+d = DatReader("E:/DEV/01_PROJECTS/30_DAT_VIEWER_SAMPLES/test.DAT",
+              has_headers=True)
+print(d.headers)
+d.print_report() ## will auto inspect columns, can be slow
 
 ## below test code is to connect to the database
 # args = config_new()
@@ -23,12 +24,12 @@ database = DBInitialSetup("dat_viewer_main2")
 # database.connect(**args)
 # database.dbsetup()
 # print("Tested DB initialization success")
-
+i
 args = config_existing()
 database.connect(**args)
-# database.tblsetup()
-# print("Tested table initialization success")
-database.tblwrite("one")
-
 database.tbltest()
+database.tblwrite("x")
+database.tbltest()
+database.close()
+
 print(time.time() - tm)
